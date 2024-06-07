@@ -54,6 +54,7 @@
                                     <th>Nomor WA</th>
                                     <th>Akta Lahir</th>
                                     <th>Kartu Keluarga</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>';
@@ -71,19 +72,20 @@
                                     <td>';
                     
                             if (pathinfo($row['akta_kelahiran'], PATHINFO_EXTENSION) == 'pdf' || pathinfo($row['akta_kelahiran'], PATHINFO_EXTENSION) == 'docx') {
-                                echo '<a href="./uploads/' . $row['akta_kelahiran'] . '" target="_blank">' . $row['akta_kelahiran'] . '</a>';
+                                echo '<a href="uploads/baptis/' . $row['akta_kelahiran'] . '" target="_blank">' . $row['akta_kelahiran'] . '</a>';
                             } else {
-                                echo '<img src="./uploads/' . $row['akta_kelahiran'] . '" style="max-width: 100px;" alt="Akta Kelahiran">';
+                                echo '<img src="uploads/baptis/' . $row['akta_kelahiran'] . '" style="max-width: 100px;" alt="Akta Kelahiran">';
                             }
                     
                             echo '</td><td>';
                             if (pathinfo($row['kk'], PATHINFO_EXTENSION) == 'pdf' || pathinfo($row['kk'], PATHINFO_EXTENSION) == 'docx') {
-                                echo '<a href="./uploads/' . $row['kk'] . '" target="_blank">' . $row['kk'] . '</a>';
+                                echo '<a href="uploads/baptis/' . $row['kk'] . '" target="_blank">' . $row['kk'] . '</a>';
                             } else {
-                                echo '<img src="./uploads/' . $row['kk'] . '" style="max-width: 100px;" alt="Kartu Keluarga">';
+                                echo '<img src="uploads/baptis/' . $row['kk'] . '" style="max-width: 100px;" alt="Kartu Keluarga">';
                             }
                     
                             echo '</td>
+                            <td>' . $row['status'] . '</td>
                                     <td>    
                                         <a style="color: #CD1818;" href="delete_baptis.php?menu_del=' . $row['id_baptis'] . '" class="delete"><i class="material-icons" data-toggle="tooltip" title="Hapus">&#xE872;</i></a>
                                     </td>

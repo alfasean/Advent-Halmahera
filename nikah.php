@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $kecamatan_suami = $_POST["kecamatan_suami"];
     $kota_kabupaten_suami = $_POST["kota_kabupaten_suami"];
     $provinsi_suami = $_POST["provinsi_suami"];
+    $status = "Data sedang diproses";
 
     $nama_lengkap_istri = $_POST["nama_lengkap_istri"];
     $tempat_lahir_istri = $_POST["tempat_lahir_istri"];
@@ -22,6 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gmail = $_POST["gmail"];
     $jemaat = $_POST["jemaat"];
     $pendeta = $_POST["pendeta"];
+
+    $id_user = $_SESSION['session_id_user'];
 
     $ktp_suami_name = $_FILES["ktp_suami"]["name"];
     $akta_kelahiran_suami_name = $_FILES["akta_lahir_suami"]["name"];
@@ -37,23 +40,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     move_uploaded_file($_FILES["akta_lahir_istri"]["tmp_name"], $upload_dir . $akta_kelahiran_istri_name);
 
     $sql = "INSERT INTO tb_nikah (
-        nama_lengkap_suami, tempat_lahir_suami, tgl_lahir_suami, alamat_suami, 
+        id_user, nama_lengkap_suami, tempat_lahir_suami, tgl_lahir_suami, alamat_suami, 
         kecamatan_suami, kota_kabupaten_suami, provinsi_suami, 
         nama_lengkap_istri, tempat_lahir_istri, tgl_lahir_istri, alamat_istri, 
         kecamatan_istri, kota_kabupaten_istri, provinsi_istri, 
-        no_wa, gmail, ktp_suami, akta_lahir_suami, ktp_istri, akta_lahir_istri, jemaat, pendeta
+        no_wa, gmail, ktp_suami, akta_lahir_suami, ktp_istri, akta_lahir_istri, jemaat, pendeta, status
     ) VALUES (
-        '$nama_lengkap_suami', '$tempat_lahir_suami', '$tgl_lahir_suami', '$alamat_suami', 
+        '$id_user', '$nama_lengkap_suami', '$tempat_lahir_suami', '$tgl_lahir_suami', '$alamat_suami', 
         '$kecamatan_suami', '$kota_kabupaten_suami', '$provinsi_suami', 
         '$nama_lengkap_istri', '$tempat_lahir_istri', '$tgl_lahir_istri', '$alamat_istri', 
         '$kecamatan_istri', '$kota_kabupaten_istri', '$provinsi_istri', 
-        '$no_wa', '$gmail', '$ktp_suami_name', '$akta_kelahiran_suami_name', '$ktp_istri_name', '$akta_kelahiran_istri_name',  '$jemaat', '$pendeta'
+        '$no_wa', '$gmail', '$ktp_suami_name', '$akta_kelahiran_suami_name', '$ktp_istri_name', '$akta_kelahiran_istri_name',  '$jemaat', '$pendeta', '$status'
     )";
 
     if ($conn->query($sql) === TRUE) {
-        echo '<div class="container mt-3"><div class="alert alert-success alert-dismissible">
-            <strong>Success!</strong> Data kamu berhasil disimpan.
-        </div></div>';
+        echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+        echo '<script>
+                Swal.fire({
+                    title: "Success!",
+                    text: "Data berhasil dikirim.",
+                    icon: "success"
+                }).then(function() {
+                    window.location.href = "index.php?p=data_nikah";
+                });
+              </script>';
     } else {
         echo '<div class="container mt-3"><div class="alert alert-danger alert-dismissible">
             <strong>Error:</strong> ' . $sql . '<br>' . $conn->error . '
@@ -120,6 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #45a049;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>

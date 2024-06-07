@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,12 +69,43 @@
                 </div>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pelayanan</a>
-                    <div class="dropdown-menu fade-up m-0">
+                    <?php
+                    if (isset($_SESSION['session_username'])) {
+                        echo '                    
+                        <div class="dropdown-menu fade-up m-0">
                         <a href="index.php?p=baptis" class="dropdown-item">Baptisan</a>
                         <a href="index.php?p=nikah" class="dropdown-item">Nikah</a>
-                    </div>
+                    </div>';
+                    } else {
+                        echo '                    
+                        <div class="dropdown-menu fade-up m-0">
+                        <a href="login.php" class="dropdown-item">Baptisan</a>
+                        <a href="login.php" class="dropdown-item">Nikah</a>
+                    </div>';
+                    }
+                    ?>
+
                 </div>
                 <a href="index.php?p=galeri" class="nav-item nav-link">Galeri</a>
+                <?php
+                    echo '<nav class="nav">';
+                    if (isset($_SESSION['session_username'])) {
+                        echo '
+                        <div class="nav-item dropdown">
+                            <a href="#" role="button" class="nav-link dropdown-toggle text-lowercase text-primary" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ' . htmlspecialchars($_SESSION['session_username'], ENT_QUOTES, 'UTF-8') . '
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="index.php?p=data_baptis">Data Baptis</a>
+                                <a class="dropdown-item" href="index.php?p=data_nikah">Data Nikah</a>
+                                <a class="dropdown-item" href="logout.php">Logout</a>
+                            </div>
+                        </div>';
+                    } else {
+                        echo '<a href="login.php" class="nav-item nav-link">Masuk</a>';
+                    }
+                    echo '</nav>';
+                    ?>
             </div>
         </div>
     </nav>
@@ -136,6 +170,12 @@
             break;
             case "kostor";
                 include 'kostor.php';
+            break;
+            case "data_baptis";
+                include 'data_baptis.php';
+            break;
+            case "data_nikah";
+                include 'data_nikah.php';
             break;
     	}
     	?>

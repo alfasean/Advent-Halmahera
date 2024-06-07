@@ -1,16 +1,19 @@
 <?php
-require_once "./../connections/connections.php";
+require_once "connections/connections.php";
 
 session_start();
-$query = "SELECT * FROM tb_nikah";
-$result = mysqli_query($conn, $query);
+$id_user = $_SESSION['session_id_user'];
 
+$sql = "SELECT * FROM tb_nikah WHERE id_user = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_user);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         ?>
-        <div class="content-wrapper">
-        <div class="container" style="margin-top: 20px; margin-bottom: 80px;">
+        <div class="container" style="margin-top: 80px; margin-bottom: 80px;">
             <h1 class="text-center mb-4" style="font-size: 30px;">Data Pernikahan</h1>
             <div style="overflow-x: auto;">
                 <table class="table table-bordered">
@@ -95,19 +98,19 @@ if ($result->num_rows > 0) {
                         </tr>
                         <tr>
                             <td>KTP Suami</td>
-                            <td><a href='uploads/nikah/<?php echo $row["ktp_suami"]; ?>' target='_blank'>Lihat</a></td>
+                            <td><a href='admin/uploads/nikah/<?php echo $row["ktp_suami"]; ?>' target='_blank'>Lihat</a></td>
                         </tr>
                         <tr>
                             <td>Akta Lahir Suami</td>
-                            <td><a href='uploads/nikah/<?php echo $row["akta_lahir_suami"]; ?>' target='_blank'>Lihat</a></td>
+                            <td><a href='admin/uploads/nikah/<?php echo $row["akta_lahir_suami"]; ?>' target='_blank'>Lihat</a></td>
                         </tr>
                         <tr>
                             <td>KTP Istri</td>
-                            <td><a href='uploads/nikah/<?php echo $row["ktp_istri"]; ?>' target='_blank'>Lihat</a></td>
+                            <td><a href='admin/uploads/nikah/<?php echo $row["ktp_istri"]; ?>' target='_blank'>Lihat</a></td>
                         </tr>
                         <tr>
                             <td>Akta Lahir Istri</td>
-                            <td><a href='uploads/nikah/<?php echo $row["akta_lahir_istri"]; ?>' target='_blank'>Lihat</a></td>
+                            <td><a href='admin/uploads/nikah/<?php echo $row["akta_lahir_istri"]; ?>' target='_blank'>Lihat</a></td>
                         </tr>
                         <tr>
                             <td>Status</td>
@@ -118,8 +121,6 @@ if ($result->num_rows > 0) {
             </div>
             <a class="btn btn-primary mt-3" href="index.php" role="button">Kembali</a>
         </div>
-        </div>
-
         <?php
     }
 } else {
